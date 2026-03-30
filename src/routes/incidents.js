@@ -70,4 +70,28 @@ router.post('/', (req, res) => {
   }
 });
 
+/**
+ * GET /api/incidents/:id
+ * Get specific incident by ID
+ */
+router.get('/:id', (req, res) => {
+  try {
+    const incident = incidents.find(i => i.id === parseInt(req.params.id));
+    
+    if (!incident) {
+      return res.status(404).json({
+        error: 'Not found',
+        message: `Incident with id ${req.params.id} not found`
+      });
+    }
+
+    res.json({
+      success: true,
+      incident
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch incident' });
+  }
+});
+
 module.exports = router;
