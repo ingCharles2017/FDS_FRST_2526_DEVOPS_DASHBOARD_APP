@@ -56,17 +56,19 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Server
-const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✓ DevOps Dashboard running on http://localhost:${PORT}`);
-});
-
-process.on('SIGTERM', () => {
-  console.log('SIGTERM signal received: closing HTTP server');
-  server.close(() => {
-    console.log('HTTP server closed');
-    process.exit(0);
+// Start server only if this file is run directly (not imported)
+if (require.main === module) {
+  const server = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✓ DevOps Dashboard running on http://localhost:${PORT}`);
   });
-});
+
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+      console.log('HTTP server closed');
+      process.exit(0);
+    });
+  });
+}
 
 module.exports = app;
