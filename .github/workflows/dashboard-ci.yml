@@ -118,5 +118,5 @@ jobs:
       with:
         name: distribution-artifacts
         path: dist/*.tar.gz
-        retention-days: 90
+        retention-days: 60
 
